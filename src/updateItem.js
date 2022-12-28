@@ -2,16 +2,17 @@
 
 const AWS = require("aws-sdk")
 
-const updateItem = async (event) => {
+/** @type {import('aws-lambda').APIGatewayProxyHandler} */
+module.exports.handler = async (event) => {
 
-  const {itemStatus} = JSON.parse(event.body);
-  const {id} = event.pathParameters
+  const { itemStatus } = JSON.parse(event.body);
+  const { id } = event.pathParameters
 
   const dynamodb = new AWS.DynamoDB.DocumentClient();
 
   await dynamodb.update({
     TableName: "ItemTable",
-    Key: {id},
+    Key: { id },
     UpdateExpression: 'set itemStatus = :itemStatus',
     ExpressionAttributeValues: {
       ':itemStatus': itemStatus
@@ -22,14 +23,7 @@ const updateItem = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
-      { msg: 'Item updated'}
+      { msg: 'Item updated' }
     ),
   };
 };
-
-
-module.exports = {
-    handler:updateItem
-}
-
-

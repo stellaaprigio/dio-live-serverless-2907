@@ -1,12 +1,11 @@
 "use strict";
 
-const {v4} = require("uuid");
+const { v4 } = require("uuid");
 const AWS = require("aws-sdk")
 
-const insertItem = async (event) => {
-//module.exports.insertItem = async (event) => {
-
-  const {item} = JSON.parse(event.body);
+/** @type {import('aws-lambda').APIGatewayProxyHandler} */
+module.exports.handler = async (event) => {
+  const { item } = JSON.parse(event.body);
   const createdAt = new Date().toISOString();
   const id = v4()
 
@@ -29,10 +28,3 @@ const insertItem = async (event) => {
     body: JSON.stringify(newItem),
   };
 };
-
-
-module.exports = {
-    handler:insertItem
-}
-
-
